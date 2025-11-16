@@ -15,7 +15,7 @@ const SectionNavigation = () => {
             >
                 <li 
                     className={cn(
-                        "text-stone-800 hover:underline border-blue-500 hover:font-bold cursor-pointer",
+                        "text-stone-800 hover:underline hover:font-bold cursor-pointer",
                         pathname === "/" && "font-bold"
                     )}
                 >
@@ -24,14 +24,24 @@ const SectionNavigation = () => {
                     </Link>
                 </li>
                 <Separator/>
-                <li className="text-stone-800 hover:underline border-blue-500 hover:font-bold cursor-pointer">
-                    <Link href="/">
+                <li 
+                    className={cn(
+                        "text-stone-800 hover:underline hover:font-bold cursor-pointer",
+                        pathname === "/get-started" && "font-bold"
+                    )}
+                >
+                    <Link href="/get-started">
                         Get Started
                     </Link>
                 </li>
                 <Separator/>
-                <li className="text-stone-800 hover:underline border-blue-500 hover:font-bold cursor-pointer">
-                    <Link href="/">
+                <li 
+                    className={cn(
+                        "text-stone-800 hover:underline hover:font-bold cursor-pointer",
+                        pathname === "/privacy" && "font-bold"
+                    )}
+                >
+                    <Link href="/privacy">
                         Privacy
                     </Link>
                 </li>

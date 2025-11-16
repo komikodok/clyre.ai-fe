@@ -14,19 +14,27 @@ const SidebarContext = createContext<SidebarContextType>({
     setOpenSidebar: () => {}
 })
 
+function useSidebar() {
+    const context = useContext(SidebarContext)
+    if (context === undefined) {
+        throw new Error("useSidebar must be used within a SidebarProvider")
+    }
+    return context
+}
+
 function Root({
     ...props
 } : React.ComponentProps<"div">) {
-    const [openSidebar, setOpenSidebar] = useState<boolean>(false)
+    const [openSidebar, setOpenSidebar] = useState<boolean>(true)
 
     return (
         <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>
             <div
+                {...props}
                 className={cn(
-                    "w-screen h-screen bg-[#031a1c] flex overflow-hidden",
+                    "w-screen h-screen bg-[#011416] flex overflow-hidden",
                     props.className
                 )}
-                {...props}
             >
                 {props.children}
             </div>
@@ -35,11 +43,13 @@ function Root({
 }
 
 function Sidebar({
-    ...props
-} : React.ComponentProps<"aside">) {
+    children
+} : {
+    children: React.ReactNode
+}) {
     return (
-        <aside {...props}>
-            {props.children}
+        <aside>
+            {children}
         </aside>
     )
 }
@@ -50,16 +60,16 @@ function SidebarTrigger({
 } : React.ComponentProps<"button"> & {
     asChild?: boolean
 }) {
-    const { openSidebar, setOpenSidebar } = useContext(SidebarContext)
+    const { openSidebar, setOpenSidebar } = useSidebar()
     const Comp = asChild ? Slot : "button"
     return (
         <Comp 
+            {...props}
             onClick={() => setOpenSidebar(!openSidebar)}
             className={cn(
                 "w-10 h-10 flex justify-center bg-background items-center rounded-lg",
                 props.className
             )}
-            {...props}
         >
             {props.children}
         </Comp>
@@ -68,88 +78,103 @@ function SidebarTrigger({
 
 function SidebarHeader({
     children,
-    className,
     ...props
 } : React.ComponentProps<"header">) {
     return (
         <header 
+            {...props}
             className={cn(
                 "flex px-1 gap-2 w-full h-fit",
-                className
+                props.className
             )}
-            {...props}
         >
             {children}
         </header>
     )
 }
 
-function SidebarContent({
+function SidebarBody({
     ...props
 } : React.ComponentProps<"div">) {
-    const { openSidebar } = useContext(SidebarContext)
+    const { openSidebar } = useSidebar()
     
     return (
         <div
+            {...props}
             className={cn(
-                "w-64 fixed inset-y-0 duration-400 space-y-1 border border-white",
-                openSidebar ? "translate-x-0" : "-translate-x-full",
+                "w-64 fixed left-0 inset-y-0 transition-transform",
+                openSidebar ? "translate-x-0" : "-translate-x-full md:-translate-x-[80%]",
                 props.className
             )}
-            {...props}
         >
             {props.children}
         </div>
     )
 }
 
+function Window({
+    children,
+    ...props
+} : React.ComponentProps<"div">) {
+    return (
+        <main 
+            {...props}
+            className={cn(
+                "w-full h-full",
+                props.className
+            )}
+        >
+            {children}
+        </main>
+    )
+}
+
 function Header({
     children,
-    className,
     ...props
 } : React.ComponentProps<"header">) {
     return (
         <header 
+            {...props}
             className={cn(
                 "flex px-1 gap-2 w-full h-fit",
-                className
+                props.className
             )}
-            {...props}
         >
             {children}
         </header>
     )
 }
 
-function Content({
-    className,
+function Body({
     children,
     ...props
 } : React.ComponentProps<"div">) {
-    const { openSidebar } = useContext(SidebarContext)
+    const { openSidebar } = useSidebar()
 
     return (
-        <main>
-            <div
-                className={cn(
-                    "w-full h-full flex-1 border border-pink-500",
-                    openSidebar ? "ml-64" : "ml-0",
-                    className
-                )}
-                {...props}
-            >
-                {children}
-            </div>
-        </main>
+        <div
+            {...props}
+            className={cn(
+                "w-full h-full border border-pink-500",
+                openSidebar ? "md:ml-64" : "ml-0 md:ml-12",
+                props.className
+            )}
+        >
+            {children}
+        </div>
     )
 }
+
+export default useSidebar
 
 export const Chat = {
     Root,
     Sidebar,
     SidebarTrigger,
     SidebarHeader,
-    SidebarContent,
+    SidebarBody,
+    Window,
     Header,
-    Content
+    Body
 }
