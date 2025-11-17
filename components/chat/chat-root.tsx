@@ -32,7 +32,7 @@ function Root({
             <div
                 {...props}
                 className={cn(
-                    "w-screen h-screen bg-[#011416] flex overflow-hidden",
+                    "w-screen h-screen flex overflow-hidden",
                     props.className
                 )}
             >
@@ -156,7 +156,7 @@ function Body({
         <div
             {...props}
             className={cn(
-                "w-full h-full border border-pink-500",
+                "w-full h-full",
                 openSidebar ? "md:ml-64" : "ml-0 md:ml-12",
                 props.className
             )}

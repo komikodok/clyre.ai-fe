@@ -6,9 +6,9 @@ import ChatContent from "@/components/chat/chat-content"
 
 const ChatLayout = () => {
   return (
-    <Chat.Root>
+    <Chat.Root className="bg-[#040e0e]">
       <Chat.Sidebar>
-        <Chat.SidebarBody>
+        <Chat.SidebarBody className="bg-[#051010] border-r border-teal-500/10">
           <ChatSidebarContent />
         </Chat.SidebarBody>
       </Chat.Sidebar>

@@ -5,18 +5,39 @@ import { Button } from "../ui/button"
 import ChatSession from "./chat-session"
 import { cn } from "@/lib/utils"
 import useSidebar, { Chat } from "@/components/chat/chat-root"
+import { Orbitron, Oregano } from "next/font/google"
+import Tooltip from "../common/tooltip"
+
+const oregano = Oregano({
+    subsets: ["latin"],
+    weight: ["400"],
+})
+
+const orbitron = Orbitron({
+    subsets: ["latin"],
+    weight: "500",
+    variable: "--font-orbitron",
+})
 
 const ChatSidebarContent = () => {
     const { openSidebar, setOpenSidebar } = useSidebar()
     return (
         <>
-            <Chat.Header className="flex justify-between p-1">
-                {openSidebar && (
-                    <div className="w-10 h-10 bg-white rounded-full"></div>
+            <Chat.Header 
+                className={cn(
+                    "flex p-1",
+                    openSidebar ? "items-center justify-between flex-row" : "items-end flex-col mt-1"
                 )}
-                <Button onClick={() => setOpenSidebar(!openSidebar)} className="cursor-pointer !bg-transparent">
-                    <PanelLeftClose className="stroke-white size-4"/>
-                </Button>
+            >
+                <h1 className={cn(oregano.className, "text-white px-1.5")}>
+                    <span className="px-2 py-1 font-bold rounded-tl-2xl rounded-tr-3xl rounded-br-lg rounded-bl-[2.5em] bg-gradient-to-br from-teal-900 via-teal-950 to-[#0d1e21]">C</span>
+                    {openSidebar && <span className={cn(orbitron.className)}>lyre</span>}
+                </h1>
+                <Tooltip content={openSidebar ? "Close Sidebar" : "Open Sidebar"} className="text-[10px]">
+                    <Button onClick={() => setOpenSidebar(!openSidebar)} className="cursor-pointer !outline-none !bg-transparent">
+                            <PanelLeftClose className={cn(!openSidebar && "rotate-180", "stroke-white size-4 transition-transform duration-400")}/>
+                    </Button>
+                </Tooltip>
             </Chat.Header>
 
             <div className="my-2 w-full space-y-4">
@@ -25,31 +46,37 @@ const ChatSidebarContent = () => {
 
                     <nav>
                         <ul className="space-y-1 px-2">
-                            <li className="cursor-pointer relative hover:bg-black/20 active:bg-black/20 p-1 flex items-center gap-2 text-white">
-                                <MessageCircleDashed 
-                                    className={cn(
-                                        "size-4",
-                                        !openSidebar && "md:absolute md:right-2"
-                                    )}
-                                />
+                            <li className="cursor-pointer relative hover:bg-[#011416] active:bg-[#011416] p-1 flex items-center gap-2 text-white">
+                                <Tooltip content="New Chat" className="text-[10px]">
+                                    <MessageCircleDashed 
+                                        className={cn(
+                                            "size-4",
+                                            !openSidebar && "md:absolute md:right-2"
+                                        )}
+                                    />
+                                </Tooltip>
                                 <span className="text-xs">New Chat</span>
                             </li>
-                            <li className="cursor-pointer relative hover:bg-black/20 active:bg-black/20 p-1 flex items-center gap-2 text-white">
-                                <ClipboardClockIcon 
-                                    className={cn(
-                                        "size-4",
-                                        !openSidebar && "md:absolute md:right-2"
-                                    )}
-                                />
+                            <li className="cursor-pointer relative hover:bg-[#011416] active:bg-[#011416] p-1 flex items-center gap-2 text-white">
+                                <Tooltip content="History" className="text-[10px]">
+                                    <ClipboardClockIcon 
+                                        className={cn(
+                                            "size-4",
+                                            !openSidebar && "md:absolute md:right-2"
+                                        )}
+                                    />
+                                </Tooltip>
                                 <span className="text-xs">History</span>
                             </li>
-                            <li className="cursor-pointer relative hover:bg-black/20 active:bg-black/20 p-1 flex items-center gap-2 text-white">
-                                <Star 
-                                    className={cn(
-                                        "size-4",
-                                        !openSidebar && "md:absolute md:right-2"
-                                    )}
-                                />
+                            <li className="cursor-pointer relative hover:bg-[#011416] active:bg-[#011416] p-1 flex items-center gap-2 text-white">
+                                <Tooltip content="Favorit" className="text-[10px]">
+                                    <Star 
+                                        className={cn(
+                                            "size-4",
+                                            !openSidebar && "md:absolute md:right-2"
+                                        )}
+                                    />
+                                </Tooltip>
                                 <span className="text-xs">Favoritt</span>
                             </li>
                         </ul>
@@ -57,68 +84,21 @@ const ChatSidebarContent = () => {
                 </div>
 
                 <ChatSession openSidebar={openSidebar}></ChatSession>
+
+                {openSidebar && (
+                    <div className="mx-3 flex gap-2">
+                        <div className="w-10 h-10 flex text-white justify-center items-center rounded-full bg-teal-900">
+                            <h1>NJ</h1>
+                        </div>
+                        <div className="space-y-1">
+                            <h1 className="text-slate-200">Njir</h1>
+                            <p className="text-xs text-slate-200">User</p>                        
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )
 }
 
 export default ChatSidebarContent
-
-// import { PanelLeftClose, MessageCircleDashed, ClipboardClockIcon, Star } from "lucide-react"
-// import { Button } from "../ui/button"
-// import ChatSession from "./chat-session"
-// import { useState } from "react"
-// import { cn } from "@/lib/utils"
-
-// const ChatSidebarContent = () => {
-//     const [openSidebar, setOpenSidebar] = useState<boolean>(false)
-//     return (
-//         <div 
-//             className={cn(
-//                 'py-4 h-full flex-shrink-0 border border-yellow-300 transition-all duration-300',
-//                 openSidebar ? 'w-68' : 'w-12'
-//             )}
-//         >
-//             <header className="flex px-1 items-center justify-between">
-//                 {openSidebar && (
-//                     <div className="w-8 h-8 rounded-full bg-white"></div> // Image
-//                 )}
-//                 <Button onClick={() => setOpenSidebar(!openSidebar)} className="cursor-pointer !bg-transparent">
-//                     <PanelLeftClose className="stroke-white size-5"/>
-//                 </Button>
-//             </header>
-
-//             <main className="my-3 border border-green-500 space-y-4">
-//                 <div className="space-y-1">
-//                     {openSidebar && (
-//                         <h2 className="text-xs text-gray-400">@menu</h2>
-//                     )}
-//                     <nav className="flex">
-//                         <ul className="w-12 h-full space-y-3">
-//                             <li className="cursor-pointer flex justify-center items-center">
-//                                 <MessageCircleDashed className="stroke-white size-5"/>
-//                             </li>
-//                             <li className="cursor-pointer flex justify-center items-center">
-//                                 <ClipboardClockIcon className="stroke-white size-5"/>
-//                             </li>
-//                             <li className="cursor-pointer flex justify-center items-center">
-//                                 <Star className="stroke-white size-5"/>
-//                             </li>
-//                         </ul>
-//                         {openSidebar && (
-//                             <ul className="space-y-3 font-normal text-white text-sm">
-//                                 <li className="cursor-pointer whitespace-nowrap">New Chat</li>
-//                                 <li className="cursor-pointer whitespace-nowrap">History</li>
-//                                 <li className="cursor-pointer whitespace-nowrap">Favorit</li>
-//                             </ul>
-//                         )}
-//                     </nav>
-//                 </div>
-
-//                 <ChatSession openSidebar={openSidebar}></ChatSession>
-//             </main>
-//         </div>
-//     )
-// }
-
-// export default ChatSidebarContent
