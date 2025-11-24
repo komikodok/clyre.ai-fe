@@ -1,7 +1,9 @@
+"use client"
+
 import { Oregano } from "next/font/google"
 import { cn } from "@/lib/utils"
-import { Chat } from "./chat-root"
-import { ChevronDown, Trash2Icon, Star } from "lucide-react"
+import useSidebar, { Chat } from "./chat-root"
+import { ChevronDown, Trash2Icon, Star, Menu } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -9,20 +11,36 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem
 } from "../ui/dropdown-menu"
+import { useParams } from "next/navigation"
 
 const oregano = Oregano({
     subsets: ["latin"],
     weight: ["400"],
 })
 
-const ChatNavbar = () => {
-  return (
-    <Chat.Header className="text-white">
-        <nav className="w-full items-center flex gap-2 p-4">
-            <h1 className={cn("font-medium text-md md:text-xl max-w-[220px] md:max-w-lg text-white line-clamp-1", oregano.className)}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt praesentium alias fuga corrupti eveniet omnis reiciendis quod harum temporibus, asperiores hic sint accusantium, iusto doloribus possimus impedit quae recusandae facilis.
-            </h1>
+function ChatNavbar({
+  title
+} : {
+  title: string
+}) {
+  const {  setOpenSidebar } = useSidebar()
+  const { sessionId } = useParams()
 
+  return (
+    <Chat.Header className="text-white pb-3 absolute top-0 z-10 bg-gradient-to-b from-[#040e0e] via-[#040e0e] to-transparent">
+        <nav className="w-full items-center flex gap-2 py-4 md:px-4">
+          <Chat.SidebarTrigger 
+            onClick={() => setOpenSidebar(true)}
+            className="md:hidden !bg-transparent !outline-none"
+          >
+            <Menu className="stroke-white size-4"/>
+          </Chat.SidebarTrigger>
+          
+          <h1 className={cn("font-medium text-md md:text-xl max-w-[220px] md:max-w-lg text-white line-clamp-1", oregano.className)}>
+            {title}
+          </h1>
+
+          {sessionId && (
             <DropdownMenu>
               <DropdownMenuTrigger className="!outline-none cursor-pointer">
                 <ChevronDown className="size-4"></ChevronDown>
@@ -40,6 +58,7 @@ const ChatNavbar = () => {
                 </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
+          )}
         </nav>
     </Chat.Header>
   )

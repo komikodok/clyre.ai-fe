@@ -32,7 +32,7 @@ function Root({
             <div
                 {...props}
                 className={cn(
-                    "w-screen h-screen flex overflow-hidden",
+                    "w-screen h-screen overflow-hidden",
                     props.className
                 )}
             >
@@ -67,7 +67,7 @@ function SidebarTrigger({
             {...props}
             onClick={() => setOpenSidebar(!openSidebar)}
             className={cn(
-                "w-10 h-10 flex justify-center bg-background items-center rounded-lg",
+                "w-8 h-8 flex justify-center bg-background items-center rounded-lg",
                 props.className
             )}
         >
@@ -116,11 +116,14 @@ function Window({
     children,
     ...props
 } : React.ComponentProps<"div">) {
+    const { openSidebar } = useSidebar()
+
     return (
         <main 
             {...props}
             className={cn(
                 "w-full h-full",
+                openSidebar ? "md:pl-64" : "pl-0 md:pl-12",
                 props.className
             )}
         >
@@ -150,14 +153,11 @@ function Body({
     children,
     ...props
 } : React.ComponentProps<"div">) {
-    const { openSidebar } = useSidebar()
-
     return (
         <div
             {...props}
             className={cn(
-                "w-full h-full",
-                openSidebar ? "md:ml-64" : "ml-0 md:ml-12",
+                "w-full h-full relative flex-1",
                 props.className
             )}
         >

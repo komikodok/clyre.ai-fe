@@ -1,9 +1,12 @@
 import ChatNavbar from "@/components/chat/chat-navbar"
+import ChatIndexContent from "@/components/chat/chat-index-content"
+
 
 const ChatPage = () => {
   return (
     <>
-      <ChatNavbar></ChatNavbar>
+      <ChatNavbar title="Clyre" />
+      <ChatIndexContent />
     </>
   )
 }

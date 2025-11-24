@@ -121,3 +121,7 @@
     scroll-behavior: smooth;
   }
 }
+
+.bg-chat {
+  background-image: radial-gradient(circle at 90% 100%, #022f2e, #051010, #040e0e);
+}

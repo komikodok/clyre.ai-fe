@@ -2,7 +2,7 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 
 const ChatSession = ({ openSidebar }: { openSidebar: boolean }) => {
     return (
-        <div className="space-y-1 ">
+        <div className="space-y-1">
             {openSidebar && (
                 <>
                     <h2 className="text-[10px] text-gray-400">@session</h2>

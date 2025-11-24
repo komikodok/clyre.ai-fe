@@ -1,52 +1,28 @@
 "use client"
 
-import { PanelLeftClose, MessageCircleDashed, ClipboardClockIcon, Star } from "lucide-react"
-import { Button } from "../ui/button"
+import { MessageCircleDashed, ClipboardClockIcon, Star } from "lucide-react"
 import ChatSession from "./chat-session"
 import { cn } from "@/lib/utils"
-import useSidebar, { Chat } from "@/components/chat/chat-root"
-import { Orbitron, Oregano } from "next/font/google"
+import useSidebar from "@/components/chat/chat-root"
 import Tooltip from "../common/tooltip"
-
-const oregano = Oregano({
-    subsets: ["latin"],
-    weight: ["400"],
-})
-
-const orbitron = Orbitron({
-    subsets: ["latin"],
-    weight: "500",
-    variable: "--font-orbitron",
-})
+import { useRouter } from "next/navigation"
 
 const ChatSidebarContent = () => {
-    const { openSidebar, setOpenSidebar } = useSidebar()
+    const { openSidebar } = useSidebar()
+
+    const router = useRouter()
     return (
         <>
-            <Chat.Header 
-                className={cn(
-                    "flex p-1",
-                    openSidebar ? "items-center justify-between flex-row" : "items-end flex-col mt-1"
-                )}
-            >
-                <h1 className={cn(oregano.className, "text-white px-1.5")}>
-                    <span className="px-2 py-1 font-bold rounded-tl-2xl rounded-tr-3xl rounded-br-lg rounded-bl-[2.5em] bg-gradient-to-br from-teal-900 via-teal-950 to-[#0d1e21]">C</span>
-                    {openSidebar && <span className={cn(orbitron.className)}>lyre</span>}
-                </h1>
-                <Tooltip content={openSidebar ? "Close Sidebar" : "Open Sidebar"} className="text-[10px]">
-                    <Button onClick={() => setOpenSidebar(!openSidebar)} className="cursor-pointer !outline-none !bg-transparent">
-                            <PanelLeftClose className={cn(!openSidebar && "rotate-180", "stroke-white size-4 transition-transform duration-400")}/>
-                    </Button>
-                </Tooltip>
-            </Chat.Header>
-
             <div className="my-2 w-full space-y-4">
                 <div className="space-y-1">
                     <h2 className="text-[10px] text-gray-400">@menu</h2>
 
                     <nav>
                         <ul className="space-y-1 px-2">
-                            <li className="cursor-pointer relative hover:bg-[#011416] active:bg-[#011416] p-1 flex items-center gap-2 text-white">
+                            <li 
+                                onClick={() => router.push("/chat")}
+                                className="cursor-pointer relative hover:bg-[#011416] active:bg-[#011416] p-1 flex items-center gap-2 text-white"
+                            >
                                 <Tooltip content="New Chat" className="text-[10px]">
                                     <MessageCircleDashed 
                                         className={cn(
