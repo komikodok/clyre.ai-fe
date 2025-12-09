@@ -25,7 +25,7 @@ function useSidebar() {
 function Root({
     ...props
 } : React.ComponentProps<"div">) {
-    const [openSidebar, setOpenSidebar] = useState<boolean>(true)
+    const [openSidebar, setOpenSidebar] = useState<boolean>(false)
 
     return (
         <SidebarContext.Provider value={{ openSidebar, setOpenSidebar }}>

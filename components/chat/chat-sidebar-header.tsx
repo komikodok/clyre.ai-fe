@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import useSidebar, { Chat } from "@/components/chat/chat-root"
 import { Orbitron, Oregano } from "next/font/google"
 import Tooltip from "../common/tooltip"
+import { useRouter } from "next/navigation"
 
 const oregano = Oregano({
     subsets: ["latin"],
@@ -21,6 +22,8 @@ const orbitron = Orbitron({
 const ChatSidebarHeader = () => {
     const { openSidebar, setOpenSidebar } = useSidebar()
 
+    const router = useRouter()
+
     return (
         <Chat.Header 
             className={cn(
@@ -28,7 +31,10 @@ const ChatSidebarHeader = () => {
                 openSidebar ? "items-center justify-between flex-row" : "items-end flex-col mt-1"
             )}
         >
-            <h1 className={cn(oregano.className, "text-white px-1.5")}>
+            <h1 
+                onClick={() => router.push("/")}
+                className={cn(oregano.className, "cursor-pointer text-white px-1.5")}
+            >
                 <span className="px-2 py-1 font-bold rounded-tl-2xl rounded-tr-3xl rounded-br-lg rounded-bl-[2.5em] bg-gradient-to-br from-teal-900 via-teal-950 to-[#0d1e21]">C</span>
                 {openSidebar && <span className={cn(orbitron.className)}>lyre</span>}
             </h1>

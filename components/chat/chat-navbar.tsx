@@ -40,7 +40,7 @@ function ChatNavbar({
             {title}
           </h1>
 
-          {sessionId && (
+          {!!sessionId && (
             <DropdownMenu>
               <DropdownMenuTrigger className="!outline-none cursor-pointer">
                 <ChevronDown className="size-4"></ChevronDown>

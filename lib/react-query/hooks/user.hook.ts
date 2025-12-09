@@ -7,7 +7,7 @@ const usersQueryKey = () => ["users"]
 const userDetailQueryKey = (id: string | number) => ["user", id]
 
 export const useUsers = (
-    params?: { search: string},
+    params?: { search: string },
     { config }: UseQueryConfig<typeof userServices.getAll> = {}
 ) => {
     return useQuery({

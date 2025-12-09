@@ -16,7 +16,6 @@ jest.mock("next/navigation", () => ({
         push: jest.fn(),
         replace: jest.fn()
     }))
-
 }))
 
 jest.mock("./lib/react-query/hooks/auth.hook.ts", () => ({
