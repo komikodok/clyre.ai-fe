@@ -3,55 +3,63 @@ import { Separator } from "@/components/ui/separator";
 const LandingPage = () => {
   return (
     <div className="space-y-10">
-      <section className="p-1 sm:flex sm:justify-between space-y-6 w-full space-x-10">
+      <section className="p-1 flex flex-col sm:flex-row sm:justify-between space-y-6 sm:space-y-0 w-full sm:space-x-10">
         <h1 className="text-start text-xl sm:text-2xl sm:w-1/2 flex-shrink-0 h-fit font-bold">
-          The Smart Cashier Assistant
+          AI Mental Health Platform
         </h1>
-        <p className="columns-2 gap-8 text-stone-700 text-xs sm:text-sm text-justify">
-          Meet <strong>Clyre</strong> — your intelligent cashier assistant that
-          brings both efficiency and emotion to your business. Beyond
-          simplifying transactions, managing orders, and providing real-time
-          insights, Clyre also interacts expressively through an animated avatar
-          that reflects the tone of your business day. When sales rise, it
-          greets you with a cheerful smile. When inventory runs low, its
-          expression turns thoughtful — prompting action without stress. This
-          emotional layer makes every interaction feel human and engaging,
-          transforming routine tasks into meaningful collaboration. Built for
-          cafes and restaurants, Clyre understands not just numbers, but moods —
-          helping you stay connected, informed, and inspired through every
-          shift.
+        <p className="columns-1 sm:columns-2 gap-8 text-stone-700 text-sm sm:text-sm text-left sm:text-justify leading-relaxed">
+          An AI-powered platform designed to help you navigate mental health
+          challenges and support your well-being journey. Using advanced AI
+          technology, we provide interactive conversations that understand
+          context and deliver relevant, personalized support. Our platform
+          enables you to manage multiple mental health topics, upload supporting
+          documents for deeper analysis, and receive real-time responses from
+          our AI agent. All conversation history is securely stored for your
+          future reference and progress tracking.
         </p>
       </section>
 
       <Separator />
 
-      <section className="p-1 sm:flex sm:justify-between space-y-6 w-full space-x-10">
+      <section className="p-1 flex flex-col sm:flex-row sm:justify-between space-y-6 sm:space-y-0 w-full sm:space-x-10">
         <h1 className="text-start text-xl sm:text-2xl sm:w-1/2 flex-shrink-0 h-fit font-bold">
-          Intelligent Sales Insights
+          Key Features
         </h1>
-        <p className="columns-2 gap-8 text-stone-700 text-xs sm:text-sm text-justify">
-          Clyre doesn’t just record sales — it learns from them. Using AI-driven
-          analytics, it identifies your top-selling products, predicts demand
-          trends, and helps manage stock efficiently. You’ll receive
-          recommendations on restocking, pricing adjustments, and even see
-          performance summaries that are easy to understand. It’s like having a
-          data analyst built right into your counter.
+        <p className="columns-1 sm:columns-2 gap-8 text-stone-700 text-sm sm:text-sm text-left sm:text-justify leading-relaxed">
+          <strong>Evidence-Based Support</strong> provides guidance grounded in
+          psychological research and therapeutic approaches for mental health
+          challenges. <strong>Personalized Insights</strong> tailored to your
+          specific situation through context-aware conversations that understand
+          your unique mental health journey. Manage{" "}
+          <strong>Multiple Topics</strong> and organize your mental health
+          concerns in one centralized place. <strong>Document Context</strong>{" "}
+          allows you to upload relevant materials per topic, helping the AI
+          provide more informed and personalized guidance.{" "}
+          <strong>Real-Time Conversations</strong> with streaming responses for
+          immediate support when you need it. Track your{" "}
+          <strong>Mental Health Progress</strong> over time with comprehensive
+          conversation history and pattern recognition.
         </p>
       </section>
 
       <Separator />
 
-      <section className="p-1 sm:flex sm:justify-between space-y-6 w-full space-x-10">
+      <section className="p-1 flex flex-col sm:flex-row sm:justify-between space-y-6 sm:space-y-0 w-full sm:space-x-10">
         <h1 className="text-start text-xl sm:text-2xl sm:w-1/2 flex-shrink-0 h-fit font-bold">
-          Privacy and Reliability
+          Security & Disclaimer
         </h1>
-        <p className="columns-2 gap-8 text-stone-700 text-xs sm:text-sm text-justify">
-          Every transaction is encrypted and securely processed. Your data stays
-          private — accessible only to you and your team. Clyre follows strict
-          safety standards to ensure reliability in every report,
-          recommendation, and system operation. Built on trusted AI
-          infrastructure, it delivers both speed and security — so you can run
-          your business confidently, every single day.
+        <p className="columns-1 sm:columns-2 gap-8 text-stone-700 text-sm sm:text-sm text-left sm:text-justify leading-relaxed">
+          All your mental health data is encrypted and securely stored.
+          Conversation history and documents are accessible only to you. This
+          platform is built with trusted AI technology to provide empathetic and
+          responsive support.{" "}
+          <strong className="text-red-600">Mental Health Disclaimer:</strong>{" "}
+          This platform provides AI-based information and support for mental
+          health. Use it as an initial aid and reference, not as a replacement
+          for consultation with psychologists, psychiatrists, or other mental
+          health professionals. If you are experiencing a mental health crisis
+          or thoughts of self-harm, please immediately contact emergency
+          services or mental health professionals.
         </p>
       </section>
     </div>

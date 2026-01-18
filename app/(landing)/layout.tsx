@@ -1,6 +1,7 @@
 import Navbar from "@/components/common/navbar";
 import LandingContent from "@/components/landing/landing-content";
 import LandingHero from "@/components/landing/landing-hero";
+import Footer from "@/components/common/footer";
 
 const LandingLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,6 +13,8 @@ const LandingLayout = ({ children }: { children: React.ReactNode }) => {
 
         <LandingContent>{children}</LandingContent>
       </div>
+
+      <Footer />
     </>
   );
 };

@@ -9,35 +9,49 @@ const SectionNavigation = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="relative hidden md:block">
-      <ul className="text-sm space-y-3 w-40 sticky top-4 rounded-md p-3 transition-all duration-500">
-        <li
-          className={cn(
-            "text-stone-800 hover:underline hover:font-bold cursor-pointer",
-            pathname === "/" && "font-bold"
-          )}
-        >
-          <Link href="/">Introduction</Link>
+    <nav className="relative w-full">
+      <ul className="flex md:flex-col gap-2 md:gap-1 w-full overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+        <li>
+          <Link
+            href="/"
+            className={cn(
+              "block px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap",
+              pathname === "/"
+                ? "bg-stone-100 text-stone-900"
+                : "text-stone-500 hover:text-stone-900 hover:bg-stone-50"
+            )}
+          >
+            Introduction
+          </Link>
         </li>
-        <Separator />
-        <li
-          className={cn(
-            "text-stone-800 hover:underline hover:font-bold cursor-pointer",
-            pathname === "/get-started" && "font-bold"
-          )}
-        >
-          <Link href="/get-started">Get Started</Link>
+        <li>
+          <Link
+            href="/usage"
+            className={cn(
+              "block px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap",
+              pathname === "/usage"
+                ? "bg-stone-100 text-stone-900"
+                : "text-stone-500 hover:text-stone-900 hover:bg-stone-50"
+            )}
+          >
+            Usage
+          </Link>
         </li>
-        <Separator />
-        <li
-          className={cn(
-            "text-stone-800 hover:underline hover:font-bold cursor-pointer",
-            pathname === "/privacy" && "font-bold"
-          )}
-        >
-          <Link href="/privacy">Privacy</Link>
+        <li>
+          <Link
+            href="/privacy"
+            className={cn(
+              "block px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap",
+              pathname === "/privacy"
+                ? "bg-stone-100 text-stone-900"
+                : "text-stone-500 hover:text-stone-900 hover:bg-stone-50"
+            )}
+          >
+            Privacy
+          </Link>
         </li>
       </ul>
+      <Separator className="mt-4 md:hidden" />
     </nav>
   );
 };

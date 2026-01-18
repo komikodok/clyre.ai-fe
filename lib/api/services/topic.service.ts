@@ -10,7 +10,11 @@ export interface ITopic {
 
 export const topicServices = {
   getAll: async () => {
-    const response = await apiClient.get("/api/agents/topic");
+    const response = await apiClient.get("/api/topics");
     return response.data;
   },
+  // create: async (topic: Partial<ITopic>) => {
+  //   const response = await apiClient.post("/api/topics", topic);
+  //   return response.data;
+  // },
 };

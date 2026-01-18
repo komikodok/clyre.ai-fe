@@ -38,7 +38,7 @@ const orbitron = Orbitron({
 const Navbar = () => {
   const [openPopover, setOpenPopover] = useState<boolean>(false);
 
-  const auth = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="max-w-7xl mx-auto bg-[#0d1e21]/5 flex space-x-3 items-center">
@@ -96,7 +96,7 @@ const Navbar = () => {
               href="/"
               className={`cursor-pointer !bg-transparent ${navigationMenuTriggerStyle()}`}
             >
-              Docs
+              Contact
             </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
@@ -104,7 +104,7 @@ const Navbar = () => {
 
       <div className="gap-[1px] hidden md:flex items-center">
         <Link
-          href={auth.isAuthenticated ? "/chat" : "/login"}
+          href={isAuthenticated ? "/chat" : "/login"}
           className="w-20 h-10 rounded-l-md flex justify-center items-center text-sm !text-white !bg-[#0d1e21] hover:text-white"
         >
           Try it
@@ -124,18 +124,19 @@ const Navbar = () => {
             <h1 className="font-semibold text-sm text-zinc-800">Start With</h1>
             <ul className="space-y-2">
               <li className="cursor-pointer text-sm text-zinc-700 flex gap-2 items-center justify-between hover:bg-zinc-100 hover:underline rounded-md px-2 py-1">
-                <p className="hover:underline">Clyre Chat</p>
-                <SquareArrowOutUpRight className="size-3" />
-              </li>
-              <li className="cursor-pointer text-sm text-zinc-700 flex gap-2 items-center justify-between hover:bg-zinc-100 hover:underline rounded-md px-2 py-1">
-                <p className="hover:underline">Clyre Pulse</p>
+                <Link
+                  href={isAuthenticated ? "/chat" : "/login"}
+                  className="hover:underline"
+                >
+                  Consult
+                </Link>
                 <SquareArrowOutUpRight className="size-3" />
               </li>
             </ul>
 
             <Separator className="h-[1px] bg-stone-200" />
 
-            {auth.isAuthenticated ? (
+            {isAuthenticated ? (
               <div
                 onClick={() => signOut({ callbackUrl: "/" })}
                 data-testid="logout-button"

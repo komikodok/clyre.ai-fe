@@ -11,7 +11,6 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
 } from "../ui/dropdown-menu";
-import { useParams } from "next/navigation";
 
 const oregano = Oregano({
   subsets: ["latin"],
@@ -20,7 +19,6 @@ const oregano = Oregano({
 
 function ChatNavbar({ title }: { title: string }) {
   const { setOpenSidebar } = useSidebar();
-  const { topic } = useParams();
 
   return (
     <Chat.Header className="text-white pb-3 absolute top-0 z-10 bg-gradient-to-b from-[#040e0e] via-[#040e0e] to-transparent">
@@ -41,7 +39,7 @@ function ChatNavbar({ title }: { title: string }) {
           {title}
         </h1>
 
-        {!!topic && (
+        {!!title && (
           <DropdownMenu>
             <DropdownMenuTrigger className="!outline-none cursor-pointer">
               <ChevronDown className="size-4"></ChevronDown>

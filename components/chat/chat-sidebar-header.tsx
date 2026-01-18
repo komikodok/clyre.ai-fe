@@ -46,7 +46,7 @@ const ChatSidebarHeader = () => {
       >
         <Button
           onClick={() => setOpenSidebar(!openSidebar)}
-          className="cursor-pointer !outline-none !bg-transparent"
+          className="cursor-pointer !outline-none focus-visible:ring-0 !bg-transparent"
         >
           <PanelLeftClose
             className={cn(
