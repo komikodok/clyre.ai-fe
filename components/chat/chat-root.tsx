@@ -55,7 +55,7 @@ function SidebarTrigger({
       onClick={() => setOpenSidebar(!openSidebar)}
       className={cn(
         "w-8 h-8 flex justify-center bg-background items-center rounded-lg",
-        props.className
+        props.className,
       )}
     >
       {props.children}
@@ -85,7 +85,7 @@ function SidebarBody({ ...props }: React.ComponentProps<"div">) {
         openSidebar
           ? "translate-x-0"
           : "-translate-x-full md:-translate-x-[80%]",
-        props.className
+        props.className,
       )}
     >
       {props.children}
@@ -102,7 +102,7 @@ function Window({ children, ...props }: React.ComponentProps<"div">) {
       className={cn(
         "w-full h-full",
         openSidebar ? "md:pl-64" : "pl-0 md:pl-12",
-        props.className
+        props.className,
       )}
     >
       {children}

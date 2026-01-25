@@ -7,22 +7,13 @@ import useSidebar from "@/components/chat/chat-root";
 import Tooltip from "../common/tooltip";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/react-query/hooks/auth.hook";
-import { useEffect, useState } from "react";
 
 const ChatSidebarContent = () => {
-  const [userSession, setUserSession] = useState<any>(null);
-
   const { user } = useAuth();
 
   const { openSidebar } = useSidebar();
 
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      setUserSession(user);
-    }
-  }, [user]);
 
   return (
     <>
@@ -40,7 +31,7 @@ const ChatSidebarContent = () => {
                   <MessageCircleDashed
                     className={cn(
                       "size-4",
-                      !openSidebar && "md:absolute md:right-2"
+                      !openSidebar && "md:absolute md:right-2",
                     )}
                   />
                 </Tooltip>
@@ -51,7 +42,7 @@ const ChatSidebarContent = () => {
                   <ClipboardClockIcon
                     className={cn(
                       "size-4",
-                      !openSidebar && "md:absolute md:right-2"
+                      !openSidebar && "md:absolute md:right-2",
                     )}
                   />
                 </Tooltip>
@@ -62,7 +53,7 @@ const ChatSidebarContent = () => {
                   <Star
                     className={cn(
                       "size-4",
-                      !openSidebar && "md:absolute md:right-2"
+                      !openSidebar && "md:absolute md:right-2",
                     )}
                   />
                 </Tooltip>

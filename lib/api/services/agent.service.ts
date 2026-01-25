@@ -1,3 +1,4 @@
+import { ResponseError, StreamError } from "@/lib/utils/error";
 import { apiClient } from "../api-client";
 import { BASE_API_URL } from "../base-url";
 
@@ -44,48 +45,79 @@ export const agentService = {
       );
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+
+        throw new ResponseError(data.meta.message, data.meta.code);
       }
 
-      const reader = response.body?.getReader();
+      const reader = response.body!.getReader();
       const decoder = new TextDecoder();
 
-      if (!reader) {
-        throw new Error("No reader available");
-      }
+      let buffer = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n\n");
+        buffer += decoder.decode(value, { stream: true });
 
-        for (const line of lines) {
-          if (line.startsWith("event: token")) {
-            const dataLine = line.split("\n")[1];
-            if (dataLine?.startsWith("data: ")) {
-              const token = dataLine.slice(6);
-              callbacks.onToken(token);
+        let boundaryIndex;
+        while ((boundaryIndex = buffer.indexOf("\n\n")) !== -1) {
+          const rawEvent = buffer.slice(0, boundaryIndex);
+          buffer = buffer.slice(boundaryIndex + 2);
+
+          const lines = rawEvent.split("\n");
+
+          let event = "";
+          let data = "";
+
+          for (const line of lines) {
+            if (line.startsWith("event:")) {
+              event = line.replace("event:", "").trim();
+            } else if (line.startsWith("data:")) {
+              data += line.replace("data:", "").trim();
             }
-          } else if (line.startsWith("event: __end__")) {
-            const dataLine = line.split("\n")[1];
-            if (dataLine?.startsWith("data: ")) {
-              try {
-                const data = JSON.parse(dataLine.slice(6));
-                callbacks.onEnd(data);
-              } catch (e) {
-                console.error("Failed to parse end event data", e);
-              }
-            }
+          }
+
+          if (!event || !data) continue;
+
+          switch (event) {
+            case "token":
+              callbacks.onToken(JSON.parse(data));
+              break;
+            case "__end__":
+              callbacks.onEnd(JSON.parse(data));
+              break;
+            case "error":
+              const streamData = JSON.parse(data);
+              throw new StreamError(streamData.message, "StreamError");
+            default:
+              break;
           }
         }
       }
     } catch (error: any) {
-      if (error.name === "AbortError") {
-        console.log("Stream aborted");
-      } else {
-        callbacks.onError(error);
+      switch (true) {
+        case error.name === "AbortError":
+          console.log("StreamAborted");
+          return;
+        case error instanceof StreamError:
+          callbacks.onError(error.message);
+          break;
+        case error instanceof ResponseError:
+          if (error.code !== 500) {
+            callbacks.onError(error.message);
+          } else {
+            callbacks.onError(
+              "Oops. Something went wrong, please try again later.",
+            );
+          }
+          break;
+        default:
+          callbacks.onError(
+            "Oops. Something went wrong, please try again later.",
+          );
+          break;
       }
     }
   },

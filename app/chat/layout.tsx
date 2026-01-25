@@ -1,14 +1,10 @@
-"use client"
+"use client";
 
-import { Chat } from "@/components/chat/chat-root"
-import ChatSidebarContent from "@/components/chat/chat-sidebar-content"
-import ChatSidebarHeader from "@/components/chat/chat-sidebar-header"
+import { Chat } from "@/components/chat/chat-root";
+import ChatSidebarContent from "@/components/chat/chat-sidebar-content";
+import ChatSidebarHeader from "@/components/chat/chat-sidebar-header";
 
-function ChatLayout({
-  children,
-} : {
-  children: React.ReactNode
-}) {
+function ChatLayout({ children }: { children: React.ReactNode }) {
   return (
     <Chat.Root className="bg-chat">
       <Chat.Sidebar>
@@ -19,12 +15,10 @@ function ChatLayout({
       </Chat.Sidebar>
 
       <Chat.Window>
-        <Chat.Body>
-          {children}
-        </Chat.Body>
+        <Chat.Body>{children}</Chat.Body>
       </Chat.Window>
     </Chat.Root>
-  )
+  );
 }
 
-export default ChatLayout
+export default ChatLayout;

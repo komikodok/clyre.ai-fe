@@ -5,7 +5,12 @@ import { Oregano } from "next/font/google";
 import PromptInput from "./prompt-input";
 import { useAuth } from "@/lib/react-query/hooks/auth.hook";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { promptSchema } from "@/lib/schemas/agent.schema";
+import { useRouteAgent } from "@/lib/react-query/hooks/agent.hook";
 
 const oregano = Oregano({
   subsets: ["latin"],
@@ -15,12 +20,40 @@ const oregano = Oregano({
 const ChatIndexContent = () => {
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const { mutateAsync, isPending } = useRouteAgent();
+
+  const form = useForm<z.infer<typeof promptSchema>>({
+    resolver: zodResolver(promptSchema),
+    defaultValues: {
+      prompt: "",
+    },
+    mode: "onChange",
+  });
 
   useEffect(() => {
     if (!isAuthenticated) {
       router.push("/login");
     }
   }, [isAuthenticated, router]);
+
+  async function handleSubmit(values: z.infer<typeof promptSchema>) {
+    try {
+      const res = await mutateAsync(values.prompt);
+      const topicName = res?.data?.ux_actions?.[0]?.target_topic;
+
+      form.reset();
+
+      if (pathname === "/chat") {
+        router.push(`/chat/${encodeURIComponent(topicName)}`);
+      }
+    } catch {
+      form.setError("prompt", {
+        type: "manual",
+        message: "Failed to start a new chat.",
+      });
+    }
+  }
 
   return (
     <main className="space-y-4 max-w-xs md:max-w-4xl w-full h-full mx-auto flex flex-col justify-center items-center">
@@ -35,7 +68,7 @@ const ChatIndexContent = () => {
         </p>
       </div>
 
-      <PromptInput />
+      <PromptInput form={form} onSubmit={handleSubmit} isPending={isPending} />
     </main>
   );
 };

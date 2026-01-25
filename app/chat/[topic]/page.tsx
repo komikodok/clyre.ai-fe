@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 
 const ChatSessionPage = async ({ params }: { params: { topic: string } }) => {
   const { topic } = await params;
+
   const topics = await topicServices.getAll();
 
   if (!topics.data.some((t: ITopic) => t.name === topic)) {
@@ -14,7 +15,7 @@ const ChatSessionPage = async ({ params }: { params: { topic: string } }) => {
   return (
     <>
       <ChatNavbar title={topic} />
-      <ChatSessionContent />
+      <ChatSessionContent topic={topic} />
     </>
   );
 };

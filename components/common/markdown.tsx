@@ -33,10 +33,16 @@ function Markdown({ textContent }: { textContent: string }) {
           const preElement = node as Element;
           const codeElement = preElement.children[0] as Element;
 
-          const codeClass = codeElement.properties.className as string[];
-          const language = codeClass
-            .find((cls) => cls.startsWith("language-"))
-            ?.split("-")[1];
+          const codeClass = codeElement.properties.className as
+            | string[]
+            | undefined;
+
+          let language: string | undefined;
+          if (codeClass) {
+            language = codeClass
+              .find((cls) => cls.startsWith("language-"))
+              ?.split("-")[1];
+          }
 
           const codeTextContent = codeElement.children[0] as Text;
           const textContent = codeTextContent.value;

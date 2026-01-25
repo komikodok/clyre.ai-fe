@@ -22,7 +22,7 @@ export const useStreamAgent = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState("");
   const [data, setData] = useState<AgentResponseData | null>(null);
-  const [error, setError] = useState<any>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const { user } = useAuth();
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -33,7 +33,7 @@ export const useStreamAgent = () => {
       setIsStreaming(true);
       setStreamingMessage("");
       setData(null);
-      setError(null);
+      setErrorMessage(null);
 
       const token = user?.accessToken;
       const userId = user?.id;
@@ -41,7 +41,7 @@ export const useStreamAgent = () => {
       if (!token || !userId) {
         setIsLoading(false);
         setIsStreaming(false);
-        setError(new Error("Unauthorized: You must be logged in."));
+        setErrorMessage("Unauthorized: You must be logged in.");
         return;
       }
 
@@ -69,7 +69,7 @@ export const useStreamAgent = () => {
           onError: (err) => {
             setIsLoading(false);
             setIsStreaming(false);
-            setError(err);
+            setErrorMessage(err);
           },
         },
       );
@@ -92,7 +92,7 @@ export const useStreamAgent = () => {
     isStreaming,
     streamingMessage,
     data,
-    error,
+    errorMessage,
   };
 };
 
