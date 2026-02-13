@@ -4,15 +4,29 @@ import { motion } from "framer-motion";
 import Markdown from "../common/markdown";
 import { Bot, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ToolMessage from "./tool-message";
+
+interface TopicAction {
+  type: "SWITCH_TOPIC" | "STAY_ON_TOPIC";
+  target_topic?: string;
+  message?: string;
+}
+
+interface FollowupSuggestion {
+  type: "FOLLOWUP_SUGGESTION";
+  suggestions: string[];
+}
+
+export type UXAction = TopicAction | FollowupSuggestion | undefined;
 
 export default function AIMessage({
   content,
-  isStreaming = false,
+  uxActions,
 }: {
   content: string;
-  isStreaming?: boolean;
+  uxActions?: UXAction[];
 }) {
-  if (!content) return null;
+  if (!content && uxActions?.length === 0) return null;
 
   return (
     <motion.div
@@ -22,7 +36,6 @@ export default function AIMessage({
       className="break-words flex max-md:flex-col gap-4 w-full max-w-xs md:max-w-3xl"
     >
       <div className="relative flex-shrink-0">
-        {/* <div className="absolute inset-0 max-h-12 max-w-12 bg-teal-500 rounded-full blur-xl" /> */}
         <div
           className={cn(
             "relative w-8 h-8 md:w-10 md:h-10 rounded-full",
@@ -46,18 +59,15 @@ export default function AIMessage({
         )}
       >
         <div className="text-slate-200 text-xs md:text-sm leading-relaxed">
-          {isStreaming ? (
-            <div className="whitespace-pre-wrap break-words">
-              {content}
-              <motion.span
-                className="inline-block w-2 h-4 ml-0.5 bg-teal-400 rounded-sm"
-                animate={{ opacity: [1, 0] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-              />
-            </div>
-          ) : (
-            <Markdown textContent={content} />
-          )}
+          <Markdown textContent={content} />
+
+          <ul className="w-full mt-3">
+            {uxActions?.map((action, index) => (
+              <li key={index}>
+                <ToolMessage action={action} />
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </motion.div>

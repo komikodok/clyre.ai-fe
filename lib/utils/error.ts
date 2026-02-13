@@ -9,9 +9,11 @@ export class ResponseError extends Error {
 
 export class StreamError extends Error {
   name: string;
+  errorId: string;
 
-  constructor(message: string, name: string) {
+  constructor(message: string, name: string, errorId: string) {
     super(message);
     this.name = name;
+    this.errorId = errorId;
   }
 }

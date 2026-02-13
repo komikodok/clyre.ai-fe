@@ -24,6 +24,7 @@ interface PromptInputProps extends Omit<
   isPending: boolean;
   isStreaming?: boolean;
   onAbort?: () => void;
+  inputRef?: React.RefObject<HTMLTextAreaElement>;
 }
 
 function PromptInput({
@@ -60,6 +61,7 @@ function PromptInput({
               <FormControl>
                 <Textarea
                   {...field}
+                  ref={props.inputRef}
                   placeholder="Ask me anything..."
                   className="outline-none! my-2 resize-none min-h-8 md:min-h-10 max-h-42 border-none flex items-center text-slate-200 text-xs md:text-sm focus-visible:ring-0"
                   style={{ scrollbarWidth: "none" }}

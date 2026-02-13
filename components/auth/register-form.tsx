@@ -56,31 +56,43 @@ const RegisterForm = () => {
 
   return (
     <>
-      <motion.h2
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="font-bold text-center mb-3 text-[#082E24]"
+      <motion.div
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="text-center mb-6"
       >
-        Sign up
-      </motion.h2>
+        <h2 className="text-lg font-bold tracking-tight text-white">
+          Create account
+        </h2>
+        <p className="text-[11px] text-white/40 mt-1">Get started with Clyre</p>
+      </motion.div>
       <Form {...form}>
         <form
           aria-label="register-form"
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-12 md:space-y-10"
+          className="space-y-7"
         >
           <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className=" relative border border-zinc-300 focus-within:border-[#1A2421] rounded-md flex items-center">
+              <FormItem className="relative border border-white/20 focus-within:border-teal-400 rounded-lg flex items-center transition-colors duration-300">
                 <motion.div
-                  initial={{ opacity: 0.5 }}
-                  animate={{ opacity: 1, top: ["auto", -7] }}
+                  initial={{
+                    opacity: 0.5,
+                    top: "auto",
+                    backgroundColor: "rgba(0,0,0,0)",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    top: -7,
+                    backgroundColor: "rgba(5, 16, 16, 0.9)",
+                  }}
                   transition={{ delay: 0.5 }}
-                  className="px-2 bg-white rounded-lg absolute left-2"
+                  className="px-2 rounded absolute left-2"
                 >
-                  <FormLabel className="!text-[#1A2421] bg-white text-xs">
+                  <FormLabel className="!text-teal-300/80 text-[10px] font-semibold uppercase tracking-wider">
                     Email
                   </FormLabel>
                 </motion.div>
@@ -88,10 +100,10 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    className="!text-xs px-4 border-none outline-none focus-visible:ring-0"
+                    className="!text-xs px-4 border-none outline-none focus-visible:ring-0 h-10 bg-transparent text-white/90 placeholder:text-white/20"
                   />
                 </FormControl>
-                <FormMessage className="absolute top-full text-[10px] p-1" />
+                <FormMessage className="absolute top-full text-[10px] p-1 text-red-400" />
               </FormItem>
             )}
           />
@@ -100,14 +112,22 @@ const RegisterForm = () => {
             control={form.control}
             name="username"
             render={({ field }) => (
-              <FormItem className=" relative border border-zinc-300 focus-within:border-[#1A2421] rounded-md flex items-center">
+              <FormItem className="relative border border-white/20 focus-within:border-teal-400 rounded-lg flex items-center transition-colors duration-300">
                 <motion.div
-                  initial={{ opacity: 0.5 }}
-                  animate={{ opacity: 1, top: ["auto", -7] }}
+                  initial={{
+                    opacity: 0.5,
+                    top: "auto",
+                    backgroundColor: "rgba(0,0,0,0)",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    top: -7,
+                    backgroundColor: "rgba(5, 16, 16, 0.9)",
+                  }}
                   transition={{ delay: 0.7 }}
-                  className="px-2 bg-white rounded-lg absolute left-2"
+                  className="px-2 rounded absolute left-2"
                 >
-                  <FormLabel className="!text-[#1A2421] bg-white text-xs">
+                  <FormLabel className="!text-teal-300/80 text-[10px] font-semibold uppercase tracking-wider">
                     Username
                   </FormLabel>
                 </motion.div>
@@ -115,27 +135,35 @@ const RegisterForm = () => {
                 <FormControl>
                   <Input
                     {...field}
-                    className="!text-xs px-4 border-none outline-none focus-visible:ring-0"
+                    className="!text-xs px-4 border-none outline-none focus-visible:ring-0 h-10 bg-transparent text-white/90 placeholder:text-white/20"
                   />
                 </FormControl>
-                <FormMessage className="absolute top-full text-[10px] p-1" />
+                <FormMessage className="absolute top-full text-[10px] p-1 text-red-400" />
               </FormItem>
             )}
           />
 
-          <div className="flex gap-2 justify-between items-center">
+          <div className="flex gap-2 items-center">
             <FormField
               control={form.control}
               name="password"
               render={({ field }) => (
-                <FormItem className="relative w-full border border-zinc-300 focus-within:border-[#1A2421] rounded-md flex items-center">
+                <FormItem className="relative w-full border border-white/20 focus-within:border-teal-400 rounded-lg flex items-center transition-colors duration-300">
                   <motion.div
-                    initial={{ opacity: 0.5 }}
-                    animate={{ opacity: 1, top: ["auto", -7] }}
+                    initial={{
+                      opacity: 0.5,
+                      top: "auto",
+                      backgroundColor: "rgba(0,0,0,0)",
+                    }}
+                    animate={{
+                      opacity: 1,
+                      top: -7,
+                      backgroundColor: "rgba(5, 16, 16, 0.9)",
+                    }}
                     transition={{ delay: 0.9 }}
-                    className="px-2 bg-white rounded-lg absolute left-2"
+                    className="px-2 rounded absolute left-2"
                   >
-                    <FormLabel className="!text-[#1A2421] bg-white text-xs">
+                    <FormLabel className="!text-teal-300/80 text-[10px] font-semibold uppercase tracking-wider">
                       Password
                     </FormLabel>
                   </motion.div>
@@ -145,40 +173,47 @@ const RegisterForm = () => {
                       type={`${!showPassword && "password"}`}
                       autoComplete="off"
                       {...field}
-                      className="!text-xs px-4 border-none outline-none focus-visible:ring-0"
+                      className="!text-xs px-4 border-none outline-none focus-visible:ring-0 h-10 bg-transparent text-white/90 placeholder:text-white/20"
                     />
                   </FormControl>
-                  <FormMessage className="absolute top-full text-[10px] p-1" />
+                  <FormMessage className="absolute top-full text-[10px] p-1 text-red-400" />
                 </FormItem>
               )}
             />
 
-            {showPassword ? (
-              <Eye
-                className="stroke-[#1A2421] size-4"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            ) : (
-              <EyeClosed
-                className="stroke-[#1A2421] size-4"
-                onClick={() => setShowPassword(!showPassword)}
-              />
-            )}
+            <div
+              className="cursor-pointer p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? (
+                <Eye className="stroke-white/50 size-4" />
+              ) : (
+                <EyeClosed className="stroke-white/50 size-4" />
+              )}
+            </div>
           </div>
 
-          <div className="flex gap-2 justify-between items-center">
+          <div className="flex gap-2 items-center">
             <FormField
               control={form.control}
               name="confirm_password"
               render={({ field }) => (
-                <FormItem className="relative w-full border border-zinc-300 focus-within:border-[#1A2421] rounded-md flex items-center">
+                <FormItem className="relative w-full border border-white/20 focus-within:border-teal-400 rounded-lg flex items-center transition-colors duration-300">
                   <motion.div
-                    initial={{ opacity: 0.5 }}
-                    animate={{ opacity: 1, top: ["auto", -7] }}
+                    initial={{
+                      opacity: 0.5,
+                      top: "auto",
+                      backgroundColor: "rgba(0,0,0,0)",
+                    }}
+                    animate={{
+                      opacity: 1,
+                      top: -7,
+                      backgroundColor: "rgba(5, 16, 16, 0.9)",
+                    }}
                     transition={{ delay: 1.1 }}
-                    className="px-2 bg-white rounded-lg absolute left-2"
+                    className="px-2 rounded absolute left-2"
                   >
-                    <FormLabel className="!text-[#1A2421] bg-white text-xs">
+                    <FormLabel className="!text-teal-300/80 text-[10px] font-semibold uppercase tracking-wider">
                       Confirm Password
                     </FormLabel>
                   </motion.div>
@@ -188,42 +223,41 @@ const RegisterForm = () => {
                       type={`${!showConfirmPassword && "password"}`}
                       autoComplete="off"
                       {...field}
-                      className="!text-xs px-4 border-none outline-none focus-visible:ring-0"
+                      className="!text-xs px-4 border-none outline-none focus-visible:ring-0 h-10 bg-transparent text-white/90 placeholder:text-white/20"
                     />
                   </FormControl>
-                  <FormMessage className="absolute top-full text-[10px] p-1" />
+                  <FormMessage className="absolute top-full text-[10px] p-1 text-red-400" />
                 </FormItem>
               )}
             />
 
-            {showConfirmPassword ? (
-              <Eye
-                className="stroke-[#1A2421] size-4"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              />
-            ) : (
-              <EyeClosed
-                className="stroke-[#1A2421] size-4"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              />
-            )}
+            <div
+              className="cursor-pointer p-2 rounded-lg hover:bg-white/10 transition-colors duration-200"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            >
+              {showConfirmPassword ? (
+                <Eye className="stroke-white/50 size-4" />
+              ) : (
+                <EyeClosed className="stroke-white/50 size-4" />
+              )}
+            </div>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4 pt-1">
             <Button
               type="submit"
               disabled={!form.formState.isValid}
-              className="w-full text-xs bg-[#082E24] hover:bg-[#0F1915] active:bg-[#0F1915] text-white cursor-pointer font-semibold p-2 rounded-md transition-all duration-500"
+              className="w-full text-xs bg-teal-500 hover:bg-teal-400 active:scale-[0.98] text-[#051010] cursor-pointer font-bold h-10 rounded-lg transition-all duration-300 shadow-lg shadow-teal-500/25 hover:shadow-teal-400/30 disabled:opacity-30"
             >
-              {status === "loading" ? "Authenticating..." : "Sign up"}
+              {status === "loading" ? "Creating account..." : "Create account"}
             </Button>
-            <p className="font-light text-xs flex gap-2">
-              Have account?
+            <p className="text-center text-[11px] text-white/35">
+              Already have an account?{" "}
               <span
                 onClick={() => router.replace("/login")}
-                className="text-blue-500 hover:underline cursor-pointer"
+                className="text-teal-400 font-semibold hover:text-teal-300 cursor-pointer transition-colors"
               >
-                Sign In
+                Sign in
               </span>
             </p>
           </div>

@@ -122,6 +122,35 @@
   }
 }
 
-.bg-chat {
-  background-image: radial-gradient(circle at 90% 100%, #022f2e, #051010, #040e0e);
+@utility bg-chat {
+  background-image: radial-gradient(
+    circle at 90% 100%,
+    #022f2e,
+    #051010,
+    #040e0e
+  );
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+@utility custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #082e2420;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #082e2440;
+  }
 }

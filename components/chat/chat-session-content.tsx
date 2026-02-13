@@ -5,12 +5,14 @@ import PromptInput from "./prompt-input";
 import UserMessage from "./user-message";
 import AIMessage from "./ai-message";
 import ErrorMessage from "./error-message";
+import ToolMessage from "./tool-message";
 import { useStreamAgent } from "@/lib/react-query/hooks/agent.hook";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { promptSchema } from "@/lib/schemas/agent.schema";
 import { useEffect, useRef } from "react";
+import { ChatInputProvider } from "./chat-input-context";
 
 interface ChatSessionContentProps {
   topic: string;
@@ -23,11 +25,14 @@ const ChatSessionContent = ({ topic }: ChatSessionContentProps) => {
     isLoading,
     isStreaming,
     streamingMessage,
-    data,
+    fullMessage,
     errorMessage,
+    uxActions,
   } = useStreamAgent();
 
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const form = useForm<z.infer<typeof promptSchema>>({
     resolver: zodResolver(promptSchema),
@@ -49,12 +54,18 @@ const ChatSessionContent = ({ topic }: ChatSessionContentProps) => {
   }, [streamingMessage, isStreaming]);
 
   useEffect(() => {
-    console.log("data", data);
+    console.log("fullMessage", fullMessage);
     console.log("errorMessage", errorMessage);
-  }, [data, errorMessage]);
+    console.log("uxActions", uxActions);
+  }, [fullMessage, errorMessage, uxActions]);
 
   return (
-    <>
+    <ChatInputProvider
+      setPrompt={(value) =>
+        form.setValue("prompt", value, { shouldValidate: true })
+      }
+      focusInput={() => inputRef.current?.focus()}
+    >
       <div className="flex-1 w-full h-full">
         <ScrollArea className="py-14 max-w-xs md:max-w-4xl h-[90%] mx-auto">
           {/* <UserMessage content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto quasi earum odio quo iste hic voluptas culpa animi fuga! Ab eaque tenetur beatae veli t, suscipit aut! Itaque nemo quod distinctio." /> */}
@@ -62,7 +73,8 @@ const ChatSessionContent = ({ topic }: ChatSessionContentProps) => {
             <ErrorMessage content={errorMessage} />
           ) : (
             <AIMessage
-              content={isStreaming ? streamingMessage : data?.ai_message || ""}
+              content={isStreaming ? streamingMessage : fullMessage}
+              uxActions={uxActions}
             />
           )}
           <div ref={scrollRef} />
@@ -76,9 +88,10 @@ const ChatSessionContent = ({ topic }: ChatSessionContentProps) => {
           isPending={isLoading || isStreaming}
           isStreaming={isStreaming}
           onAbort={abort}
+          inputRef={inputRef as React.RefObject<HTMLTextAreaElement>}
         />
       </div>
-    </>
+    </ChatInputProvider>
   );
 };
 

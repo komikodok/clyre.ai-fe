@@ -2,17 +2,22 @@ import { ResponseError, StreamError } from "@/lib/utils/error";
 import { apiClient } from "../api-client";
 import { BASE_API_URL } from "../base-url";
 
+type AgentStreamData = {
+  ai_message: string;
+  ux_actions?: any[];
+};
+
 export interface AgentStreamCallbacks {
   onToken: (token: string) => void;
-  onEnd: (response: any) => void;
-  onError: (error: any) => void;
+  onEnd: (response: AgentStreamData) => void;
+  onError: (error: { message: string; errorId: string | null }) => void;
 }
 
 export const agentService = {
-  routeAgent: async (prompt: string, userId: string, token: string) => {
+  routeAgent: async (prompt: string, token: string) => {
     const response = await apiClient.post(
       "/api/agents/new",
-      { prompt, user_id: userId },
+      { prompt },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -25,7 +30,6 @@ export const agentService = {
   streamResponse: async (
     topic: string,
     prompt: string,
-    userId: string,
     token: string,
     signal: AbortSignal,
     callbacks: AgentStreamCallbacks,
@@ -39,7 +43,7 @@ export const agentService = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ prompt, user_id: userId }),
+          body: JSON.stringify({ prompt }),
           signal,
         },
       );
@@ -90,7 +94,11 @@ export const agentService = {
               break;
             case "error":
               const streamData = JSON.parse(data);
-              throw new StreamError(streamData.message, "StreamError");
+              throw new StreamError(
+                streamData.message,
+                "StreamError",
+                streamData.error_id,
+              );
             default:
               break;
           }
@@ -102,21 +110,23 @@ export const agentService = {
           console.log("StreamAborted");
           return;
         case error instanceof StreamError:
-          callbacks.onError(error.message);
+          callbacks.onError({ message: error.message, errorId: error.errorId });
           break;
         case error instanceof ResponseError:
           if (error.code !== 500) {
-            callbacks.onError(error.message);
+            callbacks.onError({ message: error.message, errorId: null });
           } else {
-            callbacks.onError(
-              "Oops. Something went wrong, please try again later.",
-            );
+            callbacks.onError({
+              message: "Oops. Something went wrong, please try again later.",
+              errorId: null,
+            });
           }
           break;
         default:
-          callbacks.onError(
-            "Oops. Something went wrong, please try again later.",
-          );
+          callbacks.onError({
+            message: "Oops. Something went wrong, please try again later.",
+            errorId: null,
+          });
           break;
       }
     }

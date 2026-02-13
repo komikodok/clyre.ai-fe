@@ -4,7 +4,6 @@ import { cn, getGreeting } from "@/lib/utils";
 import { Oregano } from "next/font/google";
 import PromptInput from "./prompt-input";
 import { useAuth } from "@/lib/react-query/hooks/auth.hook";
-import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,7 +17,7 @@ const oregano = Oregano({
 });
 
 const ChatIndexContent = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const { mutateAsync, isPending } = useRouteAgent();
@@ -30,12 +29,6 @@ const ChatIndexContent = () => {
     },
     mode: "onChange",
   });
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, router]);
 
   async function handleSubmit(values: z.infer<typeof promptSchema>) {
     try {

@@ -6,7 +6,7 @@ export default auth((req) => {
   const pathname = req.nextUrl.pathname;
 
   const publicRoutes = ["/login", "/register"];
-  const protectedRoutes = ["/chat"];
+  const protectedRoutes: string[] = []; // Allow access to /chat for unauthenticated users
 
   const isPublicRoute = publicRoutes.some((route) =>
     pathname.startsWith(route),
@@ -19,8 +19,13 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/chat", req.url));
   }
 
-  if (!isAuthenticated && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/login", req.url));
+  // If unauthenticated and trying to access /chat/:topic, redirect to /chat
+  if (
+    !isAuthenticated &&
+    pathname.startsWith("/chat") &&
+    pathname !== "/chat"
+  ) {
+    return NextResponse.redirect(new URL("/chat", req.url));
   }
 
   return NextResponse.next();

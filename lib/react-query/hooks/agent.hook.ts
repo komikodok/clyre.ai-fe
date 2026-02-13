@@ -2,27 +2,16 @@ import { useState, useRef, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { agentService } from "@/lib/api/services/agent.service";
 import { useAuth } from "./auth.hook";
-
-interface AgentResponseData {
-  ai_message: string;
-  ux_actions?: any[];
-}
-
-export interface AgentResponse {
-  meta: {
-    code: number;
-    status: string;
-    message: string;
-  };
-  data: AgentResponseData;
-}
+import { UXAction } from "@/components/chat/ai-message";
 
 export const useStreamAgent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState("");
-  const [data, setData] = useState<AgentResponseData | null>(null);
+  const [fullMessage, setFullMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorId, setErrorId] = useState<string | null>(null);
+  const [uxActions, setUXActions] = useState<UXAction[]>([]);
 
   const { user } = useAuth();
   const abortControllerRef = useRef<AbortController | null>(null);
@@ -32,8 +21,9 @@ export const useStreamAgent = () => {
       setIsLoading(true);
       setIsStreaming(true);
       setStreamingMessage("");
-      setData(null);
+      setFullMessage("");
       setErrorMessage(null);
+      setErrorId(null);
 
       const token = user?.accessToken;
       const userId = user?.id;
@@ -42,6 +32,7 @@ export const useStreamAgent = () => {
         setIsLoading(false);
         setIsStreaming(false);
         setErrorMessage("Unauthorized: You must be logged in.");
+        setErrorId(null);
         return;
       }
 
@@ -54,22 +45,23 @@ export const useStreamAgent = () => {
       await agentService.streamResponse(
         topic,
         prompt,
-        userId,
         token,
         abortControllerRef.current.signal,
         {
           onToken: (token) => {
-            setIsLoading(false);
             setStreamingMessage((prev) => prev + token);
           },
           onEnd: (response) => {
+            setIsLoading(false);
             setIsStreaming(false);
-            setData(response);
+            setFullMessage(response.ai_message);
+            setUXActions(response.ux_actions || []);
           },
           onError: (err) => {
             setIsLoading(false);
             setIsStreaming(false);
-            setErrorMessage(err);
+            setErrorMessage(err.message);
+            setErrorId(err.errorId);
           },
         },
       );
@@ -91,8 +83,10 @@ export const useStreamAgent = () => {
     isLoading,
     isStreaming,
     streamingMessage,
-    data,
+    fullMessage,
     errorMessage,
+    errorId,
+    uxActions,
   };
 };
 
@@ -105,7 +99,7 @@ export const useRouteAgent = () => {
       if (!user?.accessToken || !user?.id) {
         throw new Error("Unauthorized: You must be logged in.");
       }
-      return agentService.routeAgent(prompt, user.id, user.accessToken);
+      return agentService.routeAgent(prompt, user.accessToken);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["topics"] });

@@ -28,12 +28,15 @@ const ChatSidebarHeader = () => {
         "flex p-1",
         openSidebar
           ? "items-center justify-between flex-row"
-          : "items-end flex-col mt-1"
+          : "items-end flex-col mt-1",
       )}
     >
       <Link
         href="/"
-        className={cn(oregano.className, "cursor-pointer text-white px-1.5")}
+        className={cn(
+          oregano.className,
+          "cursor-pointer !outline-none focus-visible:ring-0 text-white px-1.5",
+        )}
       >
         <span className="px-2 py-1 font-bold rounded-tl-2xl rounded-tr-3xl rounded-br-lg rounded-bl-[2.5em] bg-gradient-to-br from-teal-900 via-teal-950 to-[#0d1e21]">
           C
@@ -51,7 +54,7 @@ const ChatSidebarHeader = () => {
           <PanelLeftClose
             className={cn(
               !openSidebar && "rotate-180",
-              "stroke-white size-4 transition-transform duration-400"
+              "stroke-white size-4 transition-transform duration-400",
             )}
           />
         </Button>

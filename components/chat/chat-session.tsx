@@ -7,8 +7,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { MessageSquare } from "lucide-react";
+import { useAuth } from "@/lib/react-query/hooks/auth.hook";
 
 const ChatSession = ({ openSidebar }: { openSidebar: boolean }) => {
+  const { isAuthenticated } = useAuth();
   const { data: topics } = useTopics();
   const pathname = usePathname();
 
@@ -26,6 +28,8 @@ const ChatSession = ({ openSidebar }: { openSidebar: boolean }) => {
           <ScrollArea className="h-72 md:h-96">
             <ul className="space-y-1 px-1">
               {topics?.data.map((topic: ITopic) => {
+                if (!isAuthenticated) return;
+
                 const isActive = pathname === `/chat/${topic.name}`;
 
                 return (

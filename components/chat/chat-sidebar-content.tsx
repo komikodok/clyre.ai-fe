@@ -1,15 +1,22 @@
 "use client";
 
-import { MessageCircleDashed, ClipboardClockIcon, Star } from "lucide-react";
+import {
+  MessageCircleDashed,
+  ClipboardClockIcon,
+  Star,
+  LogOut,
+} from "lucide-react";
 import ChatSession from "./chat-session";
 import { cn } from "@/lib/utils";
 import useSidebar from "@/components/chat/chat-root";
 import Tooltip from "../common/tooltip";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/react-query/hooks/auth.hook";
+import { signOut } from "next-auth/react";
+import { Separator } from "../ui/separator";
 
 const ChatSidebarContent = () => {
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
 
   const { openSidebar } = useSidebar();
 
@@ -19,7 +26,9 @@ const ChatSidebarContent = () => {
     <>
       <div className="my-2 w-full space-y-4">
         <div className="space-y-1">
-          <h2 className="text-[10px] text-gray-400">@menu</h2>
+          <h2 className="text-[10px] text-gray-400 px-2 flex justify-between items-center group">
+            @menu
+          </h2>
 
           <nav>
             <ul className="space-y-1 px-2">
@@ -65,17 +74,33 @@ const ChatSidebarContent = () => {
 
         <ChatSession openSidebar={openSidebar}></ChatSession>
 
-        {openSidebar && (
-          <div className="mx-3 flex gap-2">
-            <div className="w-10 h-10 flex text-white justify-center items-center rounded-full bg-teal-900">
-              <h1>{user?.username.slice(0, 2).toUpperCase()}</h1>
+        <Separator className="my-2 bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
+
+        {openSidebar && isAuthenticated && (
+          <div className="mx-3 flex items-center justify-between">
+            <div className="flex gap-2 items-center">
+              <div className="w-10 h-10 flex text-white justify-center items-center rounded-full bg-teal-900 flex-shrink-0">
+                <h1>{user?.username.slice(0, 2).toUpperCase()}</h1>
+              </div>
+              <div className="space-y-0.5 min-w-0">
+                <h1 className="text-sm font-semibold text-slate-200 truncate">
+                  {user?.username}
+                </h1>
+                <p className="text-[10px] text-slate-400 uppercase tracking-tighter">
+                  {user?.role}
+                </p>
+              </div>
             </div>
-            <div className="space-y-1">
-              <h1 className="text-sm max-w-30 line-clamp-1 font-semibold text-slate-200">
-                {user?.username}
-              </h1>
-              <p className="text-xs text-slate-200">{user?.role}</p>
-            </div>
+
+            <Tooltip content="Logout" className="text-[10px]">
+              <button
+                onClick={() => signOut()}
+                className="p-2 hover:bg-[#011416] text-slate-400 hover:text-white rounded-lg transition-all duration-200 group/logout"
+                title="Logout"
+              >
+                <LogOut className="size-4 group-hover/logout:scale-110 transition-transform" />
+              </button>
+            </Tooltip>
           </div>
         )}
       </div>
